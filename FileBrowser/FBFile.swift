@@ -22,6 +22,11 @@ import Foundation
     open let filePath: URL
     // FBFileType
     open let type: FBFileType
+
+    public var fileSize: UInt64 {
+        let size = fileAttributes?[FileAttributeKey.size] as? UInt64
+        return size ?? 0
+    }
     
     open func delete()
     {

@@ -36,6 +36,9 @@ extension FileListViewController: UITableViewDataSource, UITableViewDelegate {
         let selectedFile = fileForIndexPath(indexPath)
         cell.textLabel?.text = selectedFile.displayName
         cell.imageView?.image = selectedFile.type.image()
+        if !selectedFile.isDirectory {
+            cell.detailTextLabel?.text = readableSize(selectedFile.fileSize)
+        }
         return cell
     }
     
@@ -101,4 +104,15 @@ extension FileListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
+}
+
+func readableSize(_ byteCount: UInt64) -> String {
+    let units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB", "BB", "NB", "DB", "CB"]
+    let step: UInt64 = 1024
+    var count = byteCount
+    for i in 0...(units.count) {
+        if count < step { return "\(count) \(units[i])" }
+        count /= step
+    }
+    return ""
 }
